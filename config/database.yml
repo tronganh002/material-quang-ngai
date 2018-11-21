@@ -1,0 +1,7 @@
+development:
+  adapter: postgresql
+  encoding: unicode
+  database: materials_development
+  pool: 5
+  username: thanhmancity
+  password:

@@ -1,0 +1,183 @@
+<style type="text/css">
+  table {
+  border-collapse: collapse;
+  margin:50px auto;
+  }
+
+/* Zebra striping */
+tr:nth-of-type(odd) {
+  background: #eee;
+  }
+
+th {
+  background: #3498db;
+  color: white;
+  font-weight: bold;
+  }
+
+td, th {
+  padding: 10px;
+  border: 1px solid #ccc;
+  text-align: left;
+  font-size: 18px;
+  }
+
+/*
+Max width before this PARTICULAR table gets nasty
+This query will take effect for any screen smaller than 760px
+and also iPads specifically.
+*/
+@media
+only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px)  {
+
+  table {
+      width: 100%;
+  }
+
+  /* Force table to not be like tables anymore */
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
+
+  /* Hide table headers (but not display: none;, for accessibility) */
+  thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  tr { border: 1px solid #ccc; }
+
+  td {
+    /* Behave  like a "row" */
+    border: none;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    padding-left: 50%;
+  }
+
+  td:before {
+    /* Now like a table header */
+    position: absolute;
+    /* Top/left values mimic padding */
+    top: 6px;
+    left: 6px;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+    /* Label the data */
+    content: attr(data-column);
+
+    color: #000;
+    font-weight: bold;
+  }
+
+}
+.nav-stacked {
+  display: block;
+}
+.nav-stacked li{
+  margin-bottom: 5px;
+}
+.active a{
+  background-color: #7f38cf;
+}
+</style>
+<div ng-controller="materialController as vm" ng-init="vm.initData(<%= @statistic %>, <%= @materials %>)">
+  <div class="col-md-12">
+  <div class="row">
+    <div class="col-md-2 text-right">
+      <ul class="nav nav-pills nav-stacked">
+        <li ng-repeat="material in vm.materials" ng-class="{ active: isSet(material.id) }">
+          <a href="javascript:void(0)" class="btn btn-info" ng-click="setTab(material.id)" style="width: 60%;">
+            {{material.name}}
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="col-md-10 text-left bg-">
+      <div ng-repeat="material in vm.materials" ng-show="isSet(material.id)">
+          <table ng-show="isSet(material.id)">
+            <thead>
+              <td style="background-color: white; border-top: none; border-left: none; border-right: none; ">
+                <button class="btn btn-info" ng-click="vm.showCreate = true"
+                  ng-show="!vm.showCreate">Create <i class="fa fa-plus"></i>
+                </button>
+                <button class="btn btn-primary" ng-click="vm.showCreate = false"
+                  ng-show="vm.showCreate">Create <i class="fa fa-check"></i>
+                </button>
+              </td>
+              <tr>
+                <th>STT</th>
+                <th>Thời gian</th>
+                <th>Khối lượng</th>
+                <th>Giá</th>
+                <th>Tổng tiền</th>
+                <th style="width: 200px;" class="text-center">Ghi chú</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-show="vm.showCreate">
+                <td>STT</td>
+                <td>
+                  <input ng-model="vm.time" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" class="form-control"
+                    year="2014" month="12" day="31" hour="23" minute="59" placeholder="Thời gian" />
+                </td>
+                <td>
+                  <input type="number" ng-model="vm.mass" class="form-control" placeholder="Khối lượng">
+                </td>
+                <td>
+                  <input type="number" ng-model="vm.price" class="form-control" placeholder="Giá">
+                </td>
+                <td>
+                  <input type="number" ng-model="vm.total" class="form-control" readonly="true">
+                </td>
+                <td class="text-center">
+                  <button class="btn btn-sm btn-success" ng-click="vm.submit()">
+                    <i class="fa fa-check"></i>
+                  </button>
+                </td>
+              </tr>
+
+              <tr ng-repeat="statistic in vm.statistic track by $index">
+                <td ng-bind="$index + 1"></td>
+                <td>
+                  <input value="{{statistic.time_input}}" class="form-control" readonly="true" ng-show="!vm.showEdit[statistic.id]"/>
+                  <input ng-model="vm.timeEdit" datetime-picker date-format="yyyy-MM-dd HH:mm:ss" class="form-control"
+                    ng-show="vm.showEdit[statistic.id]" year="2014" month="12" day="31" hour="23" minute="59" placeholder="Thời gian" />
+                </td>
+                <td>
+                  <input type="number" value="{{statistic.mass}}" class="form-control"  readonly="true" ng-show="!vm.showEdit[statistic.id]">
+                  <input type="number" ng-show="vm.showEdit[statistic.id]" ng-model="vm.massEdit" class="form-control" placeholder="Khối lượng">
+                </td>
+                <td>
+                  <input type="number" value="{{statistic.price}}" class="form-control" readonly="true" ng-show="!vm.showEdit[statistic.id]">
+                  <input type="number" ng-show="vm.showEdit[statistic.id]" ng-model="vm.priceEdit" class="form-control" placeholder="Giá">
+                </td>
+                <td>
+                  <input type="number" value="{{statistic.total}}" class="form-control" readonly="true">
+                </td>
+                <td class="text-center">
+                  <button class="btn btn-sm btn-success" ng-show="vm.showEdit[statistic.id]" ng-click="vm.update(statistic)">
+                    <i class="fa fa-check"></i>
+                  </button>
+                  <button class="btn btn-sm btn-info" ng-show="!vm.showEdit[statistic.id]" ng-click="vm.showEdit(statistic)"> <i class="fa fa-pencil"></i></button>
+                  <button class="btn btn-sm btn-primary" ng-show="vm.showEdit[statistic.id]" ng-click="vm.showEdit(statistic)"> <i class="fa fa-pencil"></i></button>
+                  <button class="btn btn-sm btn-danger" ng-click="vm.remove(statistic)"> <i class="fa fa-times"></i></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+      </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+</div>
