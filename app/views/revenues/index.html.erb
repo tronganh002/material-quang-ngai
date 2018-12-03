@@ -84,13 +84,13 @@ only screen and (max-width: 760px),
   background-color: #7f38cf;
 }
 </style>
-<div ng-controller="materialController as vm" ng-init="vm.initData(<%= @statistic %>, <%= @materials %>)">
+<div ng-controller="revenueController as vm" ng-init="vm.initData(<%= @statistic %>, <%= @materials %>)">
   <div class="col-md-12">
   <div class="row">
     <div class="col-md-2 text-right">
       <ul class="nav nav-pills nav-stacked">
         <li ng-repeat="material in vm.materials" ng-class="{ active: isSet(material.id) }">
-          <a href="javascript:void(0)" class="btn btn-info" ng-click="setTab(material.id)" style="width: 60%;">
+          <a href="javascript:void(0)" class="btn btn-info" ng-click="setTab(material.id)" style="width: 80%;">
             {{material.name}}
           </a>
         </li>
@@ -169,6 +169,8 @@ only screen and (max-width: 760px),
               </tr>
             </tbody>
           </table>
+
+
       </div>
     </div>
 </div>

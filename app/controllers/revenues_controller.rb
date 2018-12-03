@@ -1,11 +1,11 @@
-class MaterialsController < ApplicationController
+class RevenuesController < ApplicationController
   before_action :authenticate_user!
   skip_before_action :verify_authenticity_token
   before_action :set_default_material
   before_action :verify_admin, only: :destroy
 
   def index
-    @materials = Material.material_type
+    @materials = Material.revenue_type
     @statistic = Statistic.where(material_id: @materials.pluck(:id)).to_json
     @materials = @materials.to_json
     return if request.format.html?
@@ -35,11 +35,11 @@ class MaterialsController < ApplicationController
 
   private
   def load_statistic
-    material = Material.material_type.find_by(id: params[:material_id])
+    material = Material.revenue_type.find_by(id: params[:material_id])
     material.statistics
   end
 
   def set_default_material
-    params[:material_id] ||= Material.material_type.first.id
+    params[:material_id] ||= Material.revenue_type.first.id
   end
 end

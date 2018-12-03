@@ -17,19 +17,14 @@ ActiveRecord::Schema.define(version: 2018_11_21_061652) do
 
   create_table "materials", force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "revenues", force: :cascade do |t|
-    t.string "name"
+    t.integer "type_mt", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "statistics", force: :cascade do |t|
     t.integer "material_id", null: false
-    t.time "time_input"
+    t.datetime "time_input"
     t.integer "mass"
     t.integer "price"
     t.integer "total"

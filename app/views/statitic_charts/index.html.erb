@@ -1,0 +1,132 @@
+<style type="text/css">
+  table {
+  border-collapse: collapse;
+  margin:50px auto;
+  }
+
+/* Zebra striping */
+tr:nth-of-type(odd) {
+  background: #eee;
+  }
+
+th {
+  background: #3498db;
+  color: white;
+  font-weight: bold;
+  }
+
+td, th {
+  padding: 10px;
+  border: 1px solid #ccc;
+  text-align: left;
+  font-size: 18px;
+  }
+
+/*
+Max width before this PARTICULAR table gets nasty
+This query will take effect for any screen smaller than 760px
+and also iPads specifically.
+*/
+@media
+only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px)  {
+
+  table {
+      width: 100%;
+  }
+
+  /* Force table to not be like tables anymore */
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
+
+  /* Hide table headers (but not display: none;, for accessibility) */
+  thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  tr { border: 1px solid #ccc; }
+
+  td {
+    /* Behave  like a "row" */
+    border: none;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    padding-left: 50%;
+  }
+
+  td:before {
+    /* Now like a table header */
+    position: absolute;
+    /* Top/left values mimic padding */
+    top: 6px;
+    left: 6px;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+    /* Label the data */
+    content: attr(data-column);
+
+    color: #000;
+    font-weight: bold;
+  }
+
+}
+.nav-stacked {
+  display: block;
+}
+.nav-stacked li{
+  margin-bottom: 5px;
+}
+.active a{
+  background-color: #7f38cf;
+}
+canvas{
+  height: 500px !important;
+}
+</style>
+<div ng-controller="chartController as vm" ng-init="vm.initData(<%= @data_set.to_json %>, <%= current_user.admin? %>)">
+  <div class="col-md-12">
+  <div class="row">
+    <div class="col-md-2 text-right">
+      <ul class="nav nav-pills nav-stacked">
+        <li ng-repeat="tab in vm.tabs" ng-class="{ active: isSet(tab.id) }">
+          <a href="javascript:void(0)" class="btn btn-info" ng-click="setTab(tab.id)" style="width: 100%;">
+            {{tab.name}}
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="col-md-12">
+        <canvas id="chart-0"></canvas>
+        <table class="table table-borderd" ng-if="tab == 3">
+          <thead>
+            <th style="background-color: white; border-left: none; border-top: none;"></th>
+            <th ng-repeat="label in vm.dataset.labels" ng-bind="label"></th>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-center" style="font-weight: bold;">{{vm.dataMaterialLabel}}</td>
+              <td ng-repeat="data in vm.dataMaterial track by $index" ng-bind="data"></td>
+            </tr>
+            <tr>
+              <td class="text-center" style="font-weight: bold;">{{vm.dataRevenuesLabel}}</td>
+              <td ng-repeat="data in vm.dataRevenues track by $index" ng-bind="data"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+</div>
+

@@ -8,6 +8,12 @@
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js"></script>
+    <script type="text/javascript" src="https://www.chartjs.org/samples/latest/utils.js"></script>
+    <script type="text/javascript" src="https://www.chartjs.org/samples/latest/charts/area/analyser.js"></script>
+
   </head>
 
   <body ng-app="userApp">
@@ -24,10 +30,10 @@
           <% if current_user %>
             <li><a href="javascript:void(0)">Trang chủ</a></li>
             <li><%= link_to "Nguyên vật liệu", materials_path %></li>
-            <li><a href="javascript:void(0)">Doanh thu</a></li>
-            <li><a href="javascript:void(0)">Đánh giá</a></li>
+            <li><%= link_to "Doanh thu", revenues_path %></li>
+            <li><%= link_to "Đánh giá", statitic_charts_path %></li>
           <% else %>
-            <li><%= link_to "Login", new_user_session_path %></li>
+            <li><%= link_to "Đăng nhập", new_user_session_path %></li>
           <% end %>
         </ul>
       </div>
@@ -35,7 +41,7 @@
       <div class="menu_contact">
         <nav class="main_nav">
           <ul class="d-flex flex-row align-items-start justify-content-start">
-            <li><a href="javascript:void(0)">Login</a></li>
+            <li><a href="javascript:void(0)">Đăng nhập</a></li>
           </ul>
         </nav>
         <div class="menu_social">
@@ -69,28 +75,29 @@
             <ul class="d-flex flex-row align-items-start justify-content-start">
               <li class="active"><a href="javascript:void(0)" style="background-color: transparent !important;">Trang chủ</a></li>
               <li><%= link_to "Nguyên vật liệu", materials_path %></li>
-              <li><a href="javascript:void(0)">Doanh thu</a></li>
-              <li><a href="javascript:void(0)">Đánh giá</a></li>
+              <li><%= link_to "Doanh thu", revenues_path %></li>
+              <li><%= link_to "Đánh giá", statitic_charts_path %></li>
             </ul>
           </nav>
           <div class="header_right d-flex flex-row align-items-center justify-content-start ml-auto">
             <!-- Search -->
             <div class="header_search">
               <form action="#" id="header_search_form">
-                <input type="text" class="search_input" placeholder="Search" required="required">
+                <input type="text" class="search_input" placeholder="Tìm kiếm" required="required">
                 <button class="header_search_button"><img src="/images/search.png" alt=""></button>
               </form>
             </div>
             <% if current_user %>
               <nav class="main_nav">
                 <ul class="d-flex flex-row align-items-start justify-content-start">
-                  <li><%= link_to "Logout", destroy_user_session_path, method: :delete %></li>
+                  <li><%= link_to current_user.email, root_path %></li>
+                  <li><%= link_to "Đăng xuất", destroy_user_session_path, method: :delete %></li>
                 </ul>
               </nav>
             <% else %>
               <nav class="main_nav">
                 <ul class="d-flex flex-row align-items-start justify-content-start">
-                  <li><%= link_to "Login", new_user_session_path %></li>
+                  <li><%= link_to "Đăng nhập", new_user_session_path %></li>
                 </ul>
               </nav>
             <% end %>
@@ -100,7 +107,7 @@
 
       <div class="super_container_inner">
         <div class="super_overlay"></div>
-        <% if !params[:controller].eql?("devise/sessions") && !params[:controller].eql?("devise/registrations") %>
+        <% if params[:controller].eql?("home")%>
           <div class="home">
             <!-- Home Slider -->
             <div class="home_slider_container">
@@ -204,7 +211,9 @@
           </div>
         <% end %>
         <div class="products text-center">
-          <%= yield %>
+          <div style="margin-top: 100px;">
+            <%= yield %>
+          </div>
         </div>
         <footer class="footer">
           <div class="footer_content">
