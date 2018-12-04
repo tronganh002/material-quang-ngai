@@ -1120,7 +1120,7 @@ section
 {
 	background: #FFFFFF;
 	padding-top: 72px;
-	padding-bottom: 82px;
+	/*padding-bottom: 82px;*/
 }
 .page_nav_row
 {
@@ -1406,11 +1406,11 @@ section
 }
 .footer_content
 {
-	padding-bottom: 37px;
+	padding-bottom: 20px;
 }
 .footer_about
 {
-	padding-top: 47px;
+	padding-top: 10px;
 }
 .footer_logo
 {
@@ -1422,7 +1422,7 @@ section
 }
 .footer_logo a > div > div:last-child
 {
-	font-size: 34.46px;
+	font-size: 25px;
 	font-weight: 700;
 	color: #4a4a4a;
 	padding-left: 22px;
@@ -1434,8 +1434,9 @@ section
 }
 .footer_about_text
 {
-	margin-top: 24px;
-	padding-right: 50px;
+	margin-top: 10px;
+	padding-right: 25px;
+	padding-left: 22px;
 }
 .footer_menu
 {
