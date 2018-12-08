@@ -1,5 +1,5 @@
 .main-content {
-	background-image: url('bg-login.jpg') !important;
+	background-image: url('/assets/bg-login.jpg') !important;
 	background-size: cover !important;
 	background-repeat: no-repeat;
 }
@@ -18,7 +18,7 @@
 }
 
 .login-form {
-	background: white; 
+	background: white;
 	display: inline-block;
 	padding: 30px 80px;
 	border-radius: 5px;
